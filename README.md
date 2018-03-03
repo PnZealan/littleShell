@@ -1,2 +1,4 @@
 # shell
-linux bash shell 脚本练习
+
+
+为一些比较麻烦的命令，提供一些实用的工具
