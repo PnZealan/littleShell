@@ -2,8 +2,9 @@
 #
 #author zap
 
+. /etc/init.d/functions    
 
-erro_exit() {
+function erro_exit() {
     case $* in
     1)
 	echo "parameters"
@@ -26,27 +27,34 @@ erro_exit() {
     esac
 	
 }
-scan_scsi() {
+function scan_scsi() {
     $(echo "- - -" > /sys/class/scsi_host/host0/scan)
+    if [ $? -eq 0 ];then
+        action "scan_scsi - - -" /bin/true
+    fi
 }
 
-partition() {
+function partition() {
     array=$*
     for i in ${array[@]};do
 	`parted  -s $i  mkpart primary 2 100%`
+        action "parted $i successfully" /bin/true
     done
     partprobe
 }
 
-create() {
+function create() {
     `mdadm -C $1 -l$2 -n$3 $device_array`
     if [ $? -ne 0 ];then
+        action "mdadm create" /bin/false
 	erro_exit 4
+    else
+        action "mdadm create successfully" /bin/true
     fi
 }
 
 if [ $# -ge 4 ] && [[ $1 =~ raid.* ]];then
-    level=${1/raid/}
+    level=${1//raid/}
     md_name=$2
     raid_devices=$(($#-2))
     scan_scsi
