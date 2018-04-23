@@ -153,4 +153,3 @@ unset tecreset os architecture kernelrelease internalip externalip nameserver lo
 rm -f /tmp/who /tmp/ramcache /tmp/diskusage /tmp/scriptname
 }
 fi
-shift $(($OPTIND -1))
