@@ -2,10 +2,11 @@
 #filename ping_test.sh
 #author zap
 
-if [ -z "$#" ];then
+if [ "$#" = "0" ];then
     echo "usage -------------"
     echo "    -t TARGET    IP/NAME"
     echo "    -p  PROCESS    num of threads(default:10)"
+    exit 2
 fi
 
 num=10
